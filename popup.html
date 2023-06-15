@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Google Meet Auto Admit & Join</title>
+    <link rel="stylesheet" type="text/css" href="popup.css">
+</head>
+<body>
+    <div id="app" style="width: 300px; padding: 20px;">
+        <h2 style="margin-bottom: 20px;">CallOnTV Google Meet Extension</h2>
+        <div>
+            <label>
+                <input type="checkbox" id="autoAdmit">
+                Auto Admit
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" id="autoJoin">
+                Auto Join
+            </label>
+        </div>
+        <div>
+            <label for="scanInterval">Scan Interval (seconds):</label>
+            <input type="number" id="scanInterval" min="1" step="1" value="1">
+        </div>
+        <div>
+            <label for="joinNowText">"Join now" text:</label>
+            <input type="text" id="joinNowText"  >
+        </div>
+        <div>
+            <label for="AskToJoinText">"Ask to join" text:</label>
+            <input type="text" id="AskToJoinText">
+        </div>
+        <div>
+            <label for="ViewText">"View" text:</label>
+            <input type="text" id="ViewText">
+        </div>
+        <div>
+            <label for="AdmitText">"Admit" text:</label>
+            <input type="text" id="AdmitText">
+        </div>
+        <div>
+            <label for="CloseText">"Close" text:</label>
+            <input type="text" id="CloseText">
+        </div>
+    </div>
+    <div id="footer">
+        Provided by <a href="https://www.callontv.com/extension" target="_blank" rel="noopener">CallOnTV.com</a>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
