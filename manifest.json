@@ -4,10 +4,13 @@
     "version": "1.0",
     "description": "Automatically admits participants and joins Google Meet sessions.",
     "permissions": ["storage", "activeTab"],
-    "content_scripts": [{
-        "matches": ["*://meet.google.com/*"],
-        "js": ["content.js"]
-    }],
+    "content_scripts": [
+        {
+            "matches": ["*://meet.google.com/*"],
+            "js": ["content.js"],
+            "run_at": "document_idle"
+        }
+    ],
     "action": {
         "default_popup": "popup.html",
         "default_icon": {

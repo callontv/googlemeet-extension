@@ -1,6 +1,4 @@
-// The same script from the previous example but with conditions to check settings before clicking buttons
-chrome.storage.sync.get(['autoAdmit', 'autoJoin', 'scanInterval', 'joinNowText', 'AskToJoinText', 'ViewText', 'AdmitText', 'CloseText'], function(items) {
-    let scanInterval = (items.scanInterval || 1) * 1000;
+chrome.storage.sync.get(['autoAdmit', 'autoJoin', 'joinNowText', 'AskToJoinText', 'ViewText', 'AdmitText', 'CloseText'], function(items) {
     let autoAdmit = items.autoAdmit === undefined ? true : items.autoAdmit;
     let autoJoin = items.autoJoin === undefined ? true : items.autoJoin;
     let joinNowText = items.joinNowText || "Join now";
@@ -8,17 +6,45 @@ chrome.storage.sync.get(['autoAdmit', 'autoJoin', 'scanInterval', 'joinNowText',
     let viewText = items.ViewText || "View";
     let admitText = items.AdmitText || "Admit";
     let closeText = items.CloseText || "Close";
+
     if (autoAdmit) {
-        setInterval(function() {
-            checkForViewButtonAndAdmit(viewText, admitText, closeText);
-        }, scanInterval);
+        observeForViewButton(viewText, admitText, closeText);
     }
+
     if (autoJoin) {
-        setInterval(function() {
-            checkForJoinNowButton(joinNowText, askToJoinText);
-        }, scanInterval);
+        observeForJoinNowButton(joinNowText, askToJoinText);
     }
 });
+
+function observeForJoinNowButton(joinNowText, askToJoinText) {
+    let observer = new MutationObserver(function(mutations) {
+        for (let mutation of mutations) {
+            if (mutation.addedNodes.length) {
+                checkForJoinNowButton(joinNowText, askToJoinText);
+            }
+        }
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+}
+
+function observeForViewButton(viewText, admitText, closeText) {
+    let observer = new MutationObserver(function(mutations) {
+        for (let mutation of mutations) {
+            if (mutation.addedNodes.length) {
+                checkForViewButtonAndAdmit(viewText, admitText, closeText);
+            }
+        }
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+}
 
 function checkForViewButtonAndAdmit(ViewText,AdmitText,CloseText) {
     // Find and click the "View" button
