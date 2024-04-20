@@ -1,7 +1,6 @@
-chrome.storage.sync.get(['autoAdmit', 'autoJoin', 'autoSwitch', 'joinNowText', 'switchHereText', 'AskToJoinText', 'ViewText', 'AdmitText', 'CloseText'], function(items) {
+chrome.storage.sync.get(['autoAdmit', 'autoJoin', 'joinNowText', 'AskToJoinText', 'switchHereText', 'ViewText', 'AdmitText', 'CloseText'], function(items) {
     let autoAdmit = items.autoAdmit === undefined ? true : items.autoAdmit;
     let autoJoin = items.autoJoin === undefined ? true : items.autoJoin;
-    let autoSwitch = items.autoSwitch === undefined ? true : items.autoSwitch;
     let joinNowText = items.joinNowText || "Join now";
     let askToJoinText = items.AskToJoinText || "Ask to join";
     let switchHereText = items.switchHereText || "Switch here";
@@ -14,34 +13,15 @@ chrome.storage.sync.get(['autoAdmit', 'autoJoin', 'autoSwitch', 'joinNowText', '
     }
 
     if (autoJoin) {
-        observeForJoinNowButton(joinNowText, askToJoinText);
-    }
-
-    if (autoSwitch) {
-        observeForSwitchHereButton(switchHereText);
+        observeForJoinNowButton(joinNowText, askToJoinText, switchHereText);
     }
 });
 
-function observeForJoinNowButton(joinNowText, askToJoinText) {
+function observeForJoinNowButton(joinNowText, askToJoinText, switchHereText) {
     let observer = new MutationObserver(function(mutations) {
         for (let mutation of mutations) {
             if (mutation.addedNodes.length) {
-                checkForJoinNowButton(joinNowText, askToJoinText);
-            }
-        }
-    });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-}
-
-function observeForSwitchHereButton(switchHereText) {
-    let observer = new MutationObserver(function(mutations) {
-        for (let mutation of mutations) {
-            if (mutation.addedNodes.length) {
-                checkForSwitchHereButton(switchHereText);
+                checkForJoinNowButton(joinNowText, askToJoinText, switchHereText);
             }
         }
     });
@@ -108,22 +88,11 @@ function clickCloseButton(CloseText) {
     }
 }
 
-function checkForJoinNowButton(joinNowText,AskToJoinText) {
+function checkForJoinNowButton(joinNowText,AskToJoinText,switchHereText) {
     // Try to find and click the "Join now" or "Ask to join" button
-    let joinNowButton = document.evaluate('//*[text()="'+joinNowText+'" or text()="'+AskToJoinText+'"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    let joinNowButton = document.evaluate('//*[text()="'+joinNowText+'" or text()="'+AskToJoinText+'" or text()="'+switchHereText+'"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     if (joinNowButton) {
         let clickableAncestor = findClosestClickableAncestor(joinNowButton);
-        if (clickableAncestor) {
-            clickableAncestor.click();
-        }
-    }
-}
-
-function checkForSwitchHereButton(switchHereText) {
-    // Try to find and click the "Join now" or "Ask to join" button
-    let switchHereButton = document.evaluate('//*[text()="'+switchHereText+'"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-    if (switchHereButton) {
-        let clickableAncestor = findClosestClickableAncestor(switchHereButton);
         if (clickableAncestor) {
             clickableAncestor.click();
         }

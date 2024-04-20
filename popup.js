@@ -1,20 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     let autoAdmitCheckbox = document.getElementById('autoAdmit');
     let autoJoinCheckbox = document.getElementById('autoJoin');
-    let autoSwitchCheckbox = document.getElementById('autoSwitch');
     let joinNowText = document.getElementById('joinNowText');
-    let AskToJoinText = document.getElementById('AskToJoinText');
     let switchHereText = document.getElementById('switchHereText');
+    let AskToJoinText = document.getElementById('AskToJoinText');
     let ViewText = document.getElementById('ViewText');
     let AdmitText = document.getElementById('AdmitText');
     let CloseText = document.getElementById('CloseText');
     
     // Load settings
-    chrome.storage.sync.get(['autoAdmit', 'autoJoin', 'joinNowText', 'AskToJoinText', 'ViewText', 'AdmitText', 'CloseText'], function(items) {
+    chrome.storage.sync.get(['autoAdmit', 'autoJoin', 'joinNowText', 'AskToJoinText', 'switchHereText', 'ViewText', 'AdmitText', 'CloseText'], function(items) {
         // Set the checkboxes to true if they haven't been set before
         autoAdmitCheckbox.checked = (items.autoAdmit === undefined) ? true : items.autoAdmit;
         autoJoinCheckbox.checked = (items.autoJoin === undefined) ? true : items.autoJoin;
-        autoSwitchCheckbox.checked = (items.autoSwitch === undefined) ? true : items.autoJoin;
         joinNowText.value = items.joinNowText || "Join now";
         AskToJoinText.value = items.AskToJoinText || "Ask to join";
         switchHereText.value = items.switchHereText || "Switch here";
@@ -30,10 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     autoJoinCheckbox.addEventListener('change', function() {
         chrome.storage.sync.set({autoJoin: this.checked});
-    });
-
-    autoSwitchCheckbox.addEventListener('change', function() {
-        chrome.storage.sync.set({autoSwitch: this.checked});
     });
 
     joinNowText.addEventListener('input', function() {
