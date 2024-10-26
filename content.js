@@ -53,7 +53,9 @@ function checkForViewButtonAndAdmit(ViewText,AdmitText,CloseText) {
     if (viewButton) {
         let clickableAncestor = findClosestClickableAncestor(viewButton);
         if (clickableAncestor) {
-            clickableAncestor.click();
+            setTimeout(function() {
+                clickableAncestor.click();
+            }, 1000);
             // After clicking "View", check for the "Admit" button
             setTimeout(function() {
                 checkForAdmitButton(AdmitText, CloseText);
@@ -68,7 +70,9 @@ function checkForAdmitButton(AdmitText,CloseText) {
     if (admitButton) {
         let clickableAncestor = findClosestClickableAncestor(admitButton);
         if (clickableAncestor) {
-            clickableAncestor.click();
+            setTimeout(function() {
+                clickableAncestor.click();
+            }, 1000);
             // After clicking "Admit", check for the "Close" button
             setTimeout(function() {
                 clickCloseButton(CloseText);
@@ -83,7 +87,9 @@ function clickCloseButton(CloseText) {
     if (closeTooltip) {
         let clickableAncestor = findClosestClickableAncestor(closeTooltip);
         if (clickableAncestor) {
-            clickableAncestor.click();
+            setTimeout(function() {
+                clickableAncestor.click();
+            }, 1000);
         }
     }
 }
@@ -94,7 +100,9 @@ function checkForJoinNowButton(joinNowText,AskToJoinText,switchHereText) {
     if (joinNowButton) {
         let clickableAncestor = findClosestClickableAncestor(joinNowButton);
         if (clickableAncestor) {
-            clickableAncestor.click();
+            setTimeout(function() {
+                clickableAncestor.click();
+            }, 1000);
         }
     }
 }
