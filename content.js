@@ -89,7 +89,7 @@ function clickCloseButton(CloseText) {
         if (clickableAncestor) {
             setTimeout(function() {
                 clickableAncestor.click();
-            }, 1000);
+            }, 4000);
         }
     }
 }
