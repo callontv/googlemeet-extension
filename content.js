@@ -76,20 +76,20 @@ function checkForAdmitButton(AdmitText,CloseText) {
             // After clicking "Admit", check for the "Close" button
             setTimeout(function() {
                 clickCloseButton(CloseText);
-            }, 1000);
+            }, 7000);
         }
     }
 }
 
 function clickCloseButton(CloseText) {
-    // Find the tooltip with the text "Close"
-    let closeTooltip = document.evaluate('//*[text()="'+CloseText+'"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-    if (closeTooltip) {
-        let clickableAncestor = findClosestClickableAncestor(closeTooltip);
-        if (clickableAncestor) {
-            setTimeout(function() {
-                clickableAncestor.click();
-            }, 4000);
+    // find any <i class="google-material-icons">close</i>
+    const icon = Array.from(document.querySelectorAll('i'))
+    .find(i => i.textContent.trim().toLowerCase() === 'close');
+    if (icon) {
+        const btn = icon.closest('button');
+        if (btn) {
+          // give Meet a moment to animate the panel closed
+          setTimeout(() => btn.click(), 2000);
         }
     }
 }
