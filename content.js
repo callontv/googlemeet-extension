@@ -36,7 +36,8 @@ function observeForViewButton(viewText, admitText, closeText) {
     let observer = new MutationObserver(function(mutations) {
         for (let mutation of mutations) {
             if (mutation.addedNodes.length) {
-                checkForViewButtonAndAdmit(viewText, admitText, closeText);
+                checkForViewButtonAndAdmit(viewText, admitText);
+                checkForCloseButton(closeText); 
             }
         }
     });
@@ -47,7 +48,7 @@ function observeForViewButton(viewText, admitText, closeText) {
     });
 }
 
-function checkForViewButtonAndAdmit(ViewText,AdmitText,CloseText) {
+function checkForViewButtonAndAdmit(ViewText,AdmitText) {
     // Find and click the "View" button
     let viewButton = document.evaluate('//*[text()="'+ViewText+'"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     if (viewButton) {
@@ -58,13 +59,13 @@ function checkForViewButtonAndAdmit(ViewText,AdmitText,CloseText) {
             }, 1000);
             // After clicking "View", check for the "Admit" button
             setTimeout(function() {
-                checkForAdmitButton(AdmitText, CloseText);
+                checkForAdmitButton(AdmitText);
             }, 1000);
         }
     }
 }
 
-function checkForAdmitButton(AdmitText,CloseText) {
+function checkForAdmitButton(AdmitText) {
     // Find and click the "Admit" button
     let admitButton = document.evaluate('//*[text()="'+AdmitText+'"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     if (admitButton) {
@@ -73,23 +74,19 @@ function checkForAdmitButton(AdmitText,CloseText) {
             setTimeout(function() {
                 clickableAncestor.click();
             }, 1000);
-            // After clicking "Admit", check for the "Close" button
-            setTimeout(function() {
-                clickCloseButton(CloseText);
-            }, 7000);
         }
     }
 }
 
-function clickCloseButton(CloseText) {
+function checkForCloseButton(CloseText) {
     // find any <i class="google-material-icons">close</i>
     const icon = Array.from(document.querySelectorAll('i'))
     .find(i => i.textContent.trim().toLowerCase() === 'close');
     if (icon) {
         const btn = icon.closest('button');
         if (btn) {
-          // give Meet a moment to animate the panel closed
-          setTimeout(() => btn.click(), 2000);
+          // Use 5 seconds delay as requested
+          setTimeout(() => btn.click(), 5000);
         }
     }
 }
